@@ -1,0 +1,67 @@
+<div class="nav-content d-flex justify-content-between p-4 ">
+    <div class="logo "><h1 class="h4">Manage Employees</h1></div>
+    <div class="btns">
+        <button  class="btn btn-danger mx-2"><i class="fas fa-minus-circle"></i> Delete</button>
+        <button data-bs-toggle="modal" data-bs-target="#Add" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add new Employee</button>
+
+    </div>
+
+    
+    
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="Add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form [formGroup]='addForm' (ngSubmit)="getAddInfo()">
+            <label for="name">Name</label>
+            <input [class.is-valid]="f['empName'].errors == null && f['empName'].touched" type="text" name="name" class="form-control shadow-none" formControlName='empName' >
+            <div *ngIf="f['empName'].touched && f['empName'].invalid" class="alert alert-danger p-1">
+                <div *ngIf="f['empName'].errors && f['empName'].errors['required']">Name is required.</div>
+                <div *ngIf="f['empName'].errors && f['empName'].errors['minlength']">Name should be 3 character.</div>
+                <div *ngIf="f['empName'].errors && f['empName'].errors['maxlength']">Name should be max 10 character.</div>
+                
+            </div>
+            <label for="email">Email</label>
+            <input [class.is-valid]="f['empEmail'].errors == null && f['empEmail'].touched" type="email" name="email" class="form-control shadow-none" formControlName='empEmail' >
+            <div *ngIf="f['empEmail'].touched && f['empEmail'].invalid" class="alert alert-danger p-1">
+                <div *ngIf="f['empEmail'].errors && f['empEmail'].errors['required']">Email is required.</div>
+                <div *ngIf="f['empEmail'].errors && f['empEmail'].errors['email']">Please, enter valid email address.</div>
+            </div>
+
+
+            <label for="address">Address</label>
+            <input [class.is-valid]="f['empAddress'].errors == null && f['empAddress'].touched" type="text" name="address" class="form-control shadow-none" formControlName='empAddress' >
+            <div *ngIf="f['empAddress'].touched && f['empAddress'].invalid" class="alert alert-danger p-1">
+                <div *ngIf="f['empAddress'].errors && f['empAddress'].errors['required']">Address is required.</div>
+                <div *ngIf="f['empAddress'].errors && f['empAddress'].errors['minlength']">Address should be 3 character.</div>
+                <div *ngIf="f['empAddress'].errors && f['empAddress'].errors['maxlength']">Address should be max  10 character.</div>
+            </div>
+
+
+            <label for="phone">Phone</label>
+            <input [class.is-valid]="f['empPhone'].errors == null && f['empPhone'].touched" type="text" name="phone" class="form-control shadow-none" formControlName='empPhone' >
+            <div *ngIf="f['empPhone'].touched && f['empPhone'].invalid" class="alert alert-danger p-1">
+                <div *ngIf="f['empPhone'].errors && f['empPhone'].errors['required']">Phone is required.</div>
+                <div *ngIf="f['empPhone'].errors && f['empPhone'].errors['minlength']">Phone should be 11 numbers.</div>
+                <div *ngIf="f['empPhone'].errors && f['empPhone'].errors['maxlength']">Phone should be max 11 numbers.</div>
+                <div *ngIf="f['empPhone'].errors && f['empPhone'].errors['pattern']">Phone should be start 01[0,1,2,5].</div>
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white shadow-none" data-bs-dismiss="modal">Cancel</button>
+                <button [disabled]="addForm.invalid"   type="submit" class="btn btn-success shadow-none">Add</button>
+              </div>
+         </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>

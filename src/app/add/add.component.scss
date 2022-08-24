@@ -1,0 +1,43 @@
+.nav-content
+{
+    background-color: rgba(6, 64, 80, 0.83);
+    color: white;
+}
+.nav-content button
+{
+    box-shadow: none;
+}
+
+@media only screen and (max-width: 850px) {
+    .nav-content button
+    {
+        font-size: 11px;
+       
+    }
+   .table
+   {
+       font-size: 12px;
+   }
+  }
+  i
+  {
+      cursor: pointer;
+  }
+
+  .listMargin{
+ 
+    margin : 5px;
+}
+
+.table i{
+    transition-property: transform;
+    transition-duration: 0.5s;
+}
+
+.table i:hover
+{
+    transform: rotate(-110deg);
+    
+    
+}
+

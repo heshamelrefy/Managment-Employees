@@ -1,0 +1,135 @@
+<header class="">
+    <!-- <div class="nav-content d-flex justify-content-between p-4 ">
+        <div class="logo "><h1 class="h4">Manage Employees</h1></div>
+        <div class="btns">
+            <button class="btn btn-danger mx-2"><i class="fas fa-minus-circle"></i> Delete</button>
+            <button data-bs-toggle="modal" data-bs-target="#Add" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add new Employee</button>
+
+        </div>
+    </div> -->
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+              <tr>
+                
+                <th class="" scope="col"> <input class="mx-1 " type="checkbox" name="Name" id="Name"> Name</th>
+                <th scope="col">Email</th>
+                <th scope="col-4" >Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let emp of this._AuthService.employees | paginate: { itemsPerPage: 5, currentPage: cp }" class="listMargin">
+                
+                
+                <td > <input class="mx-1 check" type="checkbox" name="name" id="name">{{emp.empName}}</td>
+                <td>{{emp.empEmail}}</td>
+                <td>{{emp.empAddress}}</td>
+                <td>{{emp.empPhone}}</td>
+                <td>
+                  <i (click)="getId(emp.empId);setValue()" data-bs-toggle="modal" data-bs-target="#Edit" class="fas fa-pen  text-warning"></i>
+                  <i (click)="getId(emp.empId)" data-bs-toggle="modal" data-bs-target="#Delete" class="fas fa-trash mx-3 text-danger"></i>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          <div class=" d-flex justify-content-between align-items-center mt-3">
+            <p style="font-size: 14px;" class="lead text-secondary">show 5 out of 25 entries</p>
+            <div><pagination-controls (pageChange)="cp = $event"></pagination-controls></div>
+          </div>
+          
+    </div>
+
+
+    <!-- -------------------------------------------------------------------Add Modal--------------------------------------------------------------- -->
+
+
+  
+  
+      <!-- ------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+      <!-- -------------------------------------------------------------------------delete-------------------------------------------------------- -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="Delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want delete these Records?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Cancel</button>
+        <button (click)="deleteEmployee()" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+      <!-- ----------------------------------------------------------------------------edit------------------------------------------------------- -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="Edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]='editEmployee'  (ngSubmit)="editEmp()">
+          <label for="name">Name</label>
+          <input [class.is-valid]="E['empName'].errors == null && E['empName'].touched" type="text" name="name" class="form-control shadow-none" formControlName='empName' >
+          <div *ngIf="E['empName'].touched && E['empName'].invalid" class="alert alert-danger p-1">
+              <div *ngIf="E['empName'].errors && E['empName'].errors['required']">Name is required.</div>
+              <div *ngIf="E['empName'].errors && E['empName'].errors['minlength']">Name should be 3 character.</div>
+              <div *ngIf="E['empName'].errors && E['empName'].errors['maxlength']">Name should be max 10 character.</div>
+          </div>
+          <label for="email">Email</label>
+          <input [class.is-valid]="E['empEmail'].errors == null && E['empEmail'].touched" type="email" name="email" class="form-control shadow-none" formControlName='empEmail' >
+          <div *ngIf="E['empEmail'].touched && E['empEmail'].invalid" class="alert alert-danger p-1">
+              <div *ngIf="E['empEmail'].errors && E['empEmail'].errors['required']">Email is required.</div>
+              <div *ngIf="E['empEmail'].errors && E['empEmail'].errors['email']">Please, enter valid email address.</div>
+          </div>
+
+
+          <label for="address">Address</label>
+          <input [class.is-valid]="E['empAddress'].errors == null && E['empAddress'].touched" type="text" name="address" class="form-control shadow-none" formControlName='empAddress' >
+          <div *ngIf="E['empAddress'].touched && E['empAddress'].invalid" class="alert alert-danger p-1">
+              <div *ngIf="E['empAddress'].errors && E['empAddress'].errors['required']">Address is required.</div>
+              <div *ngIf="E['empAddress'].errors && E['empAddress'].errors['minlength']">Address should be 3 character.</div>
+              <div *ngIf="E['empAddress'].errors && E['empAddress'].errors['maxlength']">Address should be max  10 character.</div>
+          </div>
+
+
+          <label for="phone">Phone</label>
+          <input [class.is-valid]="E['empPhone'].errors == null && E['empPhone'].touched" type="text" name="phone" class="form-control shadow-none" formControlName='empPhone' >
+          <div *ngIf="E['empPhone'].touched && E['empPhone'].invalid" class="alert alert-danger p-1">
+              <div *ngIf="E['empPhone'].errors && E['empPhone'].errors['required']">Phone is required.</div>
+              <div *ngIf="E['empPhone'].errors && E['empPhone'].errors['minlength']">Phone should be 11 numbers.</div>
+              <div *ngIf="E['empPhone'].errors && E['empPhone'].errors['maxlength']">Phone should be max 11 numbers.</div>
+          </div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-white shadow-none" data-bs-dismiss="modal">Cancel</button>
+              <button [disabled]="editEmployee.invalid"   type="submit" class="btn btn-success shadow-none">Save </button>
+            </div>
+       </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+      <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+</header>
